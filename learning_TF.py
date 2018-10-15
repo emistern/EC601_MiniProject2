@@ -1,0 +1,1 @@
+#This program will be used to learn TensorFlow, using the examples from https://github.com/tensorflow/workshops, "MNIST"
