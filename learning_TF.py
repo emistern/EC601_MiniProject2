@@ -81,7 +81,82 @@ print('Test accuracy:', test_acc)
 # Since the test accuracy (.8775) is a bit less than the training accuracy (.8907), 
 # we know we have overfitting.
 
+# Make predictions
+# The model predicts labels for the test_images
+predictions = model.predict(test_images)
+# This gives us the probability that the image is each of the 9 items
+print(predictions[0])
+# The highest prediction is the one we predict the image to be
+print(np.argmax(predictions[0]))
+# Check if the first label of test_images is the same as the highest prediction
+print(test_labels[0])
 
+# Plotting functions
+def plot_image(i, predictions_array, true_label, img):
+  predictions_array, true_label, img = predictions_array[i], true_label[i], img[i]
+  plt.grid(False)
+  plt.xticks([])
+  plt.yticks([])
+  
+  plt.imshow(img, cmap=plt.cm.binary)
+
+  predicted_label = np.argmax(predictions_array)
+  if predicted_label == true_label:
+    color = 'blue'
+  else:
+    color = 'red'
+  
+  plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
+                                100*np.max(predictions_array),
+                                class_names[true_label]),
+                                color=color)
+
+def plot_value_array(i, predictions_array, true_label):
+  predictions_array, true_label = predictions_array[i], true_label[i]
+  plt.grid(False)
+  plt.xticks([])
+  plt.yticks([])
+  thisplot = plt.bar(range(10), predictions_array, color="#777777")
+  plt.ylim([0, 1]) 
+  predicted_label = np.argmax(predictions_array)
+ 
+  thisplot[predicted_label].set_color('red')
+  thisplot[true_label].set_color('blue')
+
+# # Check out the 0th image predictions
+# i = 0
+# plt.figure(figsize=(6,3))
+# plt.subplot(1,2,1)
+# plot_image(i, predictions, test_labels, test_images)
+# plt.subplot(1,2,2)
+# plot_value_array(i, predictions,  test_labels)
+
+
+# # CHeck out the 12th image, which happens to fail...
+# i = 12
+# plt.figure(figsize=(6,3))
+# plt.subplot(1,2,1)
+# plot_image(i, predictions, test_labels, test_images)
+# plt.subplot(1,2,2)
+# plot_value_array(i, predictions,  test_labels)
+
+#Plot many images on 1 figure!
+# Plot the first X test images, their predicted label, and the true label
+# Color correct predictions in blue, incorrect predictions in red
+num_rows = 5
+num_cols = 3
+num_images = num_rows*num_cols
+plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+for i in range(num_images):
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image(i, predictions, test_labels, test_images)
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_value_array(i, predictions, test_labels)
+
+# Need to figure out how to move the images up on the figure so i can see them all
+
+# Show plots
+plt.show()
 
 
 
