@@ -72,3 +72,16 @@ model.compile(optimizer=tf.train.AdamOptimizer(), # this is the algorithm used t
 model.fit(train_images, train_labels, epochs=5) 
 # One epoch is the time step that is incremented every time it has went 
 # through all the samples in the training set
+
+# Evaluate the accuracy
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+
+print('Test accuracy:', test_acc)
+
+# Since the test accuracy (.8775) is a bit less than the training accuracy (.8907), 
+# we know we have overfitting.
+
+
+
+
+
