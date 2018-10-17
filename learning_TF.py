@@ -19,3 +19,10 @@ fashion_mnist = keras.datasets.fashion_mnist
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
+# Get the size of the training set, both images and labels
+print(train_images.shape)
+print(len(train_labels))
+# The training labels are ints between 0 and 9
+print(train_labels)
+
+
