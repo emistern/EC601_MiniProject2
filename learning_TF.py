@@ -155,6 +155,23 @@ for i in range(num_images):
 
 # Need to figure out how to move the images up on the figure so i can see them all
 
+# Take one image and plot it with all of its probabilities
+# Grab an image from the test dataset
+img = test_images[0]
+print(img.shape)
+
+# Add the image to a batch where it's the only member.
+img = (np.expand_dims(img,0))
+print(img.shape)
+
+#Predict what the image is
+predictions_single = model.predict(img)
+print(predictions_single)
+
+plt.figure()
+plot_value_array(0, predictions_single, test_labels)
+_ = plt.xticks(range(10), class_names, rotation=45)
+
 # Show plots
 plt.show()
 
