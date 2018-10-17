@@ -29,5 +29,29 @@ print(train_labels)
 print(test_images.shape)
 print(len(test_labels))
 
+# Pre-process the images
+# Set up the figures
+plt.figure()
+plt.imshow(train_images[0])
+plt.colorbar()
+plt.grid(False)
+
+# Scale the images between 0 and 1
+train_images = train_images / 255.0
+
+test_images = test_images / 255.0
+
+#Plot the first 25 images
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+
+# Need to include this to show the plots
+plt.show()
 
 
