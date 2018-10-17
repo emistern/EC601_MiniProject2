@@ -27,7 +27,7 @@ print(train_labels)
 
 # get the size of the test dataset
 print(test_images.shape)
-print(len(test_labels)
+print(len(test_labels))
 
 
 
