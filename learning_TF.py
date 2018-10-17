@@ -25,4 +25,9 @@ print(len(train_labels))
 # The training labels are ints between 0 and 9
 print(train_labels)
 
+# get the size of the test dataset
+print(test_images.shape)
+print(len(test_labels)
+
+
 
