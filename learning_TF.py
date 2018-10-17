@@ -19,18 +19,18 @@ fashion_mnist = keras.datasets.fashion_mnist
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
-# Get the size of the training set, both images and labels
-print(train_images.shape)
-print(len(train_labels))
-# The training labels are ints between 0 and 9
-print(train_labels)
+# # Get the size of the training set, both images and labels
+# print(train_images.shape)
+# print(len(train_labels))
+# # The training labels are ints between 0 and 9
+# print(train_labels)
 
-# get the size of the test dataset
-print(test_images.shape)
-print(len(test_labels))
+# # get the size of the test dataset
+# print(test_images.shape)
+# print(len(test_labels))
 
 # Pre-process the images
-# Set up the figures
+# Show the first image with a color bar
 plt.figure()
 plt.imshow(train_images[0])
 plt.colorbar()
@@ -52,6 +52,19 @@ for i in range(25):
     plt.xlabel(class_names[train_labels[i]])
 
 # Need to include this to show the plots
-plt.show()
+#plt.show()
+
+
+# Begin building the model
+model = keras.Sequential([
+    keras.layers.Flatten(input_shape=(28, 28)), #this first layer just 'unpacks' the 2d 28x28 array
+    keras.layers.Dense(128, activation=tf.nn.relu), #deeply connected layer with 128 nodes
+    keras.layers.Dense(10, activation=tf.nn.softmax) #deeply connected softmax layer, 10 nodes.
+])
+
+# Compile the model, this adds in the optimizer, loss function, and metrics
+model.compile(optimizer=tf.train.AdamOptimizer(), # this is the algorithm used to find the best weights, backprop
+              loss='sparse_categorical_crossentropy', # cross entropy loss, (for binary models)
+              metrics=['accuracy']) # accuracy is the fraction of images correctly classified
 
 
