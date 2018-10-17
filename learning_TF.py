@@ -68,3 +68,7 @@ model.compile(optimizer=tf.train.AdamOptimizer(), # this is the algorithm used t
               metrics=['accuracy']) # accuracy is the fraction of images correctly classified
 
 
+# Train the model
+model.fit(train_images, train_labels, epochs=5) 
+# One epoch is the time step that is incremented every time it has went 
+# through all the samples in the training set
