@@ -1,5 +1,6 @@
 # The purpose of this program is to go into the downloaded cocodataset and get the desired Categories to use
-# for training an image classifier.
+# for training an image classifier. It will then shuffle the images and split them by 80/20 training/testing
+# and then 80/20 training/validation. It will return a txt file with the names of the image files
 
 # This follows the cocodatasetAPI Python Demo found here: https://github.com/cocodataset/cocoapi/blob/master/PythonAPI/pycocoDemo.ipynb
 
@@ -9,6 +10,7 @@ import numpy as np
 import skimage.io as io
 import matplotlib.pyplot as plt
 import pylab
+import random
 
 # Setup the pylab parameters
 pylab.rcParams['figure.figsize'] = (8.0, 10.0)
@@ -24,21 +26,36 @@ coco=COCO(annFile)
 # display COCO categories and supercategories
 cats = coco.loadCats(coco.getCatIds())
 nms=[cat['name'] for cat in cats]
-print('COCO categories: \n{}\n'.format(' '.join(nms)))
+#print('COCO categories: \n{}\n'.format(' '.join(nms)))
 
 nms = set([cat['supercategory'] for cat in cats])
-print('COCO supercategories: \n{}'.format(' '.join(nms)))
+#print('COCO supercategories: \n{}'.format(' '.join(nms)))
 
 
 # get all images containing given categories, select one at random
-catIds = coco.getCatIds(catNms=['person','chair']);
+catIds = coco.getCatIds(catNms=['person','furniture']);
 imgIds = coco.getImgIds(catIds=catIds );
 #imgIds = coco.getImgIds(imgIds = [241668])
 img = coco.loadImgs(imgIds[np.random.randint(0,len(imgIds))])[0]
 
-print(imgIds)
-
+# Use the commented out code below to show one image 
 # I = io.imread(img['coco_url'])
 # plt.axis('off')
 # plt.imshow(I)
 # plt.show()
+
+# Get the number of images in dataset
+print(len(imgIds))
+
+# Need to split the dataset into training, testing, and validation set. 
+# split the entire list to have 80/20 training vs testing
+
+# What is 80% of the images list?
+eighty_pct_full_images = int(.8*len(imgIds))
+print('80% of images is: ', eighty_pct_full_images)
+training_dataset = imgIds[:eighty_pct_full_images]
+testing_dataset = imgIds[eighty_pct_full_images:]
+
+
+
+
