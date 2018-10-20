@@ -9,3 +9,11 @@ import numpy as np
 import skimage.io as io
 import matplotlib.pyplot as plt
 import pylab
+
+# Setup the pylab parameters
+pylab.rcParams['figure.figsize'] = (8.0, 10.0)
+
+# Input path to directory of images/annotations
+dataDir='./Coco_Dataset/'
+dataType='val2017'
+annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
