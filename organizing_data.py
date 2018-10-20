@@ -11,7 +11,6 @@ import numpy as np
 import skimage.io as io
 import matplotlib.pyplot as plt
 import pylab
-import random
 
 # Setup the pylab parameters
 pylab.rcParams['figure.figsize'] = (8.0, 10.0)
