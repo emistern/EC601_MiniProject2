@@ -20,3 +20,25 @@ annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
 
 # initialize COCO api for instance annotations
 coco=COCO(annFile)
+
+# display COCO categories and supercategories
+cats = coco.loadCats(coco.getCatIds())
+nms=[cat['name'] for cat in cats]
+print('COCO categories: \n{}\n'.format(' '.join(nms)))
+
+nms = set([cat['supercategory'] for cat in cats])
+print('COCO supercategories: \n{}'.format(' '.join(nms)))
+
+
+# get all images containing given categories, select one at random
+catIds = coco.getCatIds(catNms=['person','chair']);
+imgIds = coco.getImgIds(catIds=catIds );
+#imgIds = coco.getImgIds(imgIds = [241668])
+img = coco.loadImgs(imgIds[np.random.randint(0,len(imgIds))])[0]
+
+print(imgIds)
+
+# I = io.imread(img['coco_url'])
+# plt.axis('off')
+# plt.imshow(I)
+# plt.show()
