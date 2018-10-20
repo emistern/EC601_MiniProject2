@@ -36,24 +36,32 @@ nms = set([cat['supercategory'] for cat in cats])
 
 # get all images containing given categories, select one at random
 #catIds = coco.getCatIds(catNms=['chair','person']);
-catIds = coco.getCatIds(catNms=['chair']);
-imgIds = coco.getImgIds(catIds=catIds);
+catIds_chair = coco.getCatIds(catNms=['furniture']);
+imgIds_chair = coco.getImgIds(catIds=catIds_chair);
+catIds_person = coco.getCatIds(catNms=['person']);
+imgIds_person = coco.getImgIds(catIds=catIds_person);
 
 # Get the number of images in dataset
-print(len(imgIds))
 
-# Need to split the dataset into training, testing, and validation set. 
-# split the entire list to have 80/20 training vs testing
+
+# Make the datasets the same size
+smaller_class = min(len(imgIds_chair), len(imgIds_person))
+shortened_imgIds_chair = imgIds_chair[:smaller_class]
+shortened_imgIds_person = imgIds_person[:smaller_class]
+
+
+# # Need to split the dataset into training, testing, and validation set. 
+# # split the entire list to have 80/20 training vs testing
 
 # What is 80% of the images list?
-eighty_pct_full_images = int(.8*len(imgIds))
+eighty_pct_full_images = int(.8*len(shortened_imgIds_chair))
 print('80% of images is: ', eighty_pct_full_images)
-big_training_dataset = imgIds[:eighty_pct_full_images]
-testing_dataset = imgIds[eighty_pct_full_images:]
-eighty_pct_training = int(.8*len(big_training_dataset))
+big_training_dataset_chair = shortened_imgIds_chair[:eighty_pct_full_images]
+testing_dataset_chair = shortened_imgIds_chair[eighty_pct_full_images:]
+eighty_pct_training = int(.8*len(big_training_dataset_chair))
 print('80% of Training images is: ', eighty_pct_training)
-training_dataset = big_training_dataset[:eighty_pct_training]
-validation_dataset = big_training_dataset[eighty_pct_training:]
+training_dataset_chair = big_training_dataset_chair[:eighty_pct_training]
+validation_dataset_chair = big_training_dataset_chair[eighty_pct_training:]
 
 #################################################################
 ###### Split training,testing,validation into txt files #########
