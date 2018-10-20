@@ -11,6 +11,7 @@ import numpy as np
 import skimage.io as io
 import matplotlib.pyplot as plt
 import pylab
+import shutil
 
 # Setup the pylab parameters
 pylab.rcParams['figure.figsize'] = (8.0, 10.0)
@@ -36,7 +37,7 @@ nms = set([cat['supercategory'] for cat in cats])
 catIds = coco.getCatIds(catNms=['person','furniture']);
 imgIds = coco.getImgIds(catIds=catIds );
 #imgIds = coco.getImgIds(imgIds = [241668])
-img = coco.loadImgs(imgIds[np.random.randint(0,len(imgIds))])[0]
+#img = coco.loadImgs(imgIds[np.random.randint(0,len(imgIds))])[0]
 
 # Use the commented out code below to show one image 
 # I = io.imread(img['coco_url'])
@@ -61,13 +62,39 @@ training_dataset = big_training_dataset[:eighty_pct_training]
 validation_dataset = big_training_dataset[eighty_pct_training:]
 
 # Write the training, testing, and validation data sets to a file
-with open("training_dataset.txt", "w") as f:
-    f.writelines(map("{}\n".format, training_dataset))
+# with open("training_dataset.txt", "w") as f:
+#     f.writelines(map("{}\n".format, training_dataset))
 
-with open("validation_dataset.txt", "w") as f:
-    f.writelines(map("{}\n".format, validation_dataset))
+# with open("validation_dataset.txt", "w") as f:
+#     f.writelines(map("{}\n".format, validation_dataset))
 
-with open("testing_dataset.txt", "w") as f:
-    f.writelines(map("{}\n".format, testing_dataset))
+# with open("testing_dataset.txt", "w") as f:
+#     f.writelines(map("{}\n".format, testing_dataset))
+
+# Loop over the images in training and if it has an CATID of person move it to the person folder.
+# move all of the training data set into a folder. then change the directory of coco to that directory.
+# then in that file split the directory into person and furniture data.
+image_file = []
+for image in training_dataset:
+	#image_file = './twitter_images/*' +image + '.jpg'
+	#print(image, len(str(image)))
+	image = str(image)
+	paddedimage = image.zfill(12)
+	image_name = paddedimage+'.jpg'
+	image_file.append(image_name)
+	#print(image, len(str(image)), " ", image_name)
+
+source = "./Coco_Dataset/val2017/"
+dest = "./training"
+
+for image in image_file:
+	shutil.move(source+image, dest)
+	# move each image to the training directory
+# catId_person = coco.getCatIds(catNms=['person']);
+# catId_furniture = coco.getCatIds(catNms=['furniture']);
+
+
+# for iImage in range(len(training_dataset)):
+# 	print(coco.getCatIds(imgIds = [training_dataset[iImage]]))
 
 
