@@ -12,7 +12,7 @@ import skimage.io as io
 import matplotlib.pyplot as plt
 import pylab
 import shutil
-import glob
+import os
 
 # Setup the pylab parameters
 pylab.rcParams['figure.figsize'] = (8.0, 10.0)
@@ -36,7 +36,7 @@ nms = set([cat['supercategory'] for cat in cats])
 
 # get all images containing given categories, select one at random
 #catIds = coco.getCatIds(catNms=['chair','person']);
-catIds_chair = coco.getCatIds(catNms=['furniture']);
+catIds_chair = coco.getCatIds(catNms=['chair']);
 imgIds_chair = coco.getImgIds(catIds=catIds_chair);
 catIds_person = coco.getCatIds(catNms=['person']);
 imgIds_person = coco.getImgIds(catIds=catIds_person);
@@ -53,7 +53,7 @@ shortened_imgIds_person = imgIds_person[:smaller_class]
 # # Need to split the dataset into training, testing, and validation set. 
 # # split the entire list to have 80/20 training vs testing
 
-# What is 80% of the images list?
+# What is 80% of the chairs list?
 eighty_pct_full_images = int(.8*len(shortened_imgIds_chair))
 print('80% of images is: ', eighty_pct_full_images)
 big_training_dataset_chair = shortened_imgIds_chair[:eighty_pct_full_images]
@@ -63,76 +63,53 @@ print('80% of Training images is: ', eighty_pct_training)
 training_dataset_chair = big_training_dataset_chair[:eighty_pct_training]
 validation_dataset_chair = big_training_dataset_chair[eighty_pct_training:]
 
+# What is 80% of the person list?
+big_training_dataset_person = shortened_imgIds_person[:eighty_pct_full_images]
+testing_dataset_person = shortened_imgIds_person[eighty_pct_full_images:]
+training_dataset_person = big_training_dataset_person[:eighty_pct_training]
+validation_dataset_person = big_training_dataset_person[eighty_pct_training:]
+
+
 #################################################################
-###### Split training,testing,validation into txt files #########
+######## Move the training items to correct Folders #############
 #################################################################
-# Write the training, testing, and validation data sets to a file
-# with open("training_dataset.txt", "w") as f:
-#     f.writelines(map("{}\n".format, training_dataset))
+# Copy the chair images into the training folder
+image_file_chair = []
+for image in training_dataset_chair:
+	image = str(image)
+	paddedimage = image.zfill(12)
+	image_name = paddedimage+'.jpg'
+	image_file_chair.append(image_name)
 
-# with open("validation_dataset.txt", "w") as f:
-#     f.writelines(map("{}\n".format, validation_dataset))
+source = "./Coco_Dataset/val2017/"
+dest = "./training/chair"
+for image in image_file_chair:
+	try:
+		shutil.copy2(source+image, dest)
+	except:
+		pass
 
-# with open("testing_dataset.txt", "w") as f:
-#     f.writelines(map("{}\n".format, testing_dataset))
+# # Copy the person images into the training folder
+image_file_person = []
+for image in training_dataset_person:
+	image = str(image)
+	paddedimage = image.zfill(12)
+	image_name = paddedimage+'.jpg'
+	image_file_person.append(image_name)
 
-# #################################################################
-# ########### Move training data into its own folder ##############
-# #################################################################
-# # Loop over the images in training and if it has an CATID of person move it to the person folder.
-# # move all of the training data set into a folder. then change the directory of coco to that directory.
-# # then in that file split the directory into person and furniture data.
-# image_file = []
-# for image in training_dataset:
-# 	image = str(image)
-# 	paddedimage = image.zfill(12)
-# 	image_name = paddedimage+'.jpg'
-# 	image_file.append(image_name)
-
-# # SHould add in error checking, if this is already done then pass.
-# # source = "./Coco_Dataset/val2017/"
-# # dest = "./training"
-
-# # for image in image_file:
-# # 	shutil.move(source+image, dest)
-# # 	# move each image to the training directory
-
-# #################################################################
-# ############# Move each id data into its own folder #############
-# #################################################################
-# catId_person = coco.getCatIds(catNms=['person']);
-# catId_furniture = coco.getCatIds(catNms=['furniture']);
-# imgIds_person = coco.getImgIds(catIds=catId_person );
-# imgIds_furniture = coco.getImgIds(catIds=catId_furniture );
-
-# training_image_files = glob.glob("./training/*.jpg")
-# #print(training_image_files)
-# test_str = './training/000000032861.jpg'
-# test2=test_str.rsplit('/',1)[1]
-# test3 = test2.rsplit('.',1)[0]
-# print(test3.lstrip("0"))
-# for image in training_image_files:
-# 	temp1 = image.rsplit('/',1)[1]
-# 	temp2 = temp1.rsplit('.',1)[0]
-# 	temp3 = temp2.lstrip("0")
-# 	if int(temp3) in imgIds_person:
-# 		#shutil.move(image, "./training/person")
-# 		print(temp3, "Person")
-# 	if int(temp3) in imgIds_furniture:
-# 		#shutil.move(image, "./training/furniture")
-# 		print(temp3, "FURNITURE")
-
-# print(len(imgIds_furniture))
-# print(len(imgIds_person))
-# print(len(imgIds))
+source = "./Coco_Dataset/val2017/"
+dest = "./training/person"
+for image in image_file_person:
+	try:
+		shutil.copy2(source+image, dest)
+	except:
+		pass
 
 
-# # Loop over the list of files in the directory. get the id by looking at
-# # the contents between 0 and .jpg. Then check if that ID is in the 
-# # imgIds_person list, if it is then move it to the person directory.
 
 
-# # for iImage in range(len(training_dataset)):
-# # 	print(coco.getCatIds(imgIds = [training_dataset[iImage]]))
+
+
+
 
 
