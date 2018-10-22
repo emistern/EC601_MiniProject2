@@ -10,7 +10,7 @@ Items to install:
 
 Classes:
 1. Person
-2. Furniture
+2. Chair
 
 Models:
 1. TBD
@@ -20,7 +20,8 @@ Files:
 1. organizing_data.py
 	This file looks into the specified Cocodataset directory and splits the specified images of 
 	given classes into training, testing, and validation datasets. 80/20 training/testing of 
-	full dataset. then the training dataset is split 80/20 training/validation.
+	full dataset. then the training dataset is split 80/20 training/validation. It moves the training
+	images into the approriate directories.
 2. TBD
 3. TBD
 
